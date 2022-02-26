@@ -1,6 +1,6 @@
 import React from 'react';
 import { toast } from 'react-toastify';
-import Table from '../../components/Table';
+import Table from '@components/Table';
 
 // import { Container } from './styles';
 

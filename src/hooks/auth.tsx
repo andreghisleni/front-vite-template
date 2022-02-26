@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useState, useContext } from 'react';
-import api from '../services/api';
-import { getItem, removeItem, setItem } from '../utils/localstorage';
+import api from '@services/api';
+import { getItem, removeItem, setItem } from '@utils/localstorage';
 
 interface SignInCredentials {
   user: string;
