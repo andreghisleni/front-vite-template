@@ -9,7 +9,6 @@ interface ContainerProps {
   isErrored: boolean;
   border: boolean;
   maxWidth?: string | number;
-
   multiline?: boolean;
 }
 

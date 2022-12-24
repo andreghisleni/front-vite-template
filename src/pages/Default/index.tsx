@@ -1,8 +1,21 @@
-import React from 'react';
-import { toast } from 'react-toastify';
-import Table from '@components/Table';
+import React, { useEffect } from 'react';
+import RichMarkdownEditor from 'rich-markdown-editor';
+import styled from 'styled-components';
 
 // import { Container } from './styles';
+
+const Editor = styled(RichMarkdownEditor)`
+  width: 80%;
+  height: 50%;
+  padding: 10px;
+  overflow: hidden;
+  > div {
+    height: 100%;
+    padding: 50px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+`;
 
 export const Default: React.FC = () => {
   const data = [
@@ -67,6 +80,13 @@ export const Default: React.FC = () => {
       phone: '(83) 3811-1276',
     },
   ];
+  const [value, setValue] = React.useState(
+    'edwgrthrthrtyh\ndfgdfgfdgdfg\ndfgdfgdfgdf\negrtghrt\nddfgdfgdfgdfg\ndfgdfgdfg\n| sdfgdfgdfgdfghdftghdftaergert | sgdfhfghfhdfhdfhgdfghdf | efbrthrterg |\n|----|----|----|\n| rgrthrthtrherty | | |\n| | | |\n| fwererregregreger | | |\n\n:::info\ndfbfghdfghgfghdrftghdfgh\n:::\n \n \n\\ndfgfghfghdfgh\n\n\nfhfghfgh\ndfgfthfhrthrthrtehrt4t\n\n \n```javascript\nconst test = "test";\n```\n\\n    ',
+  );
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
+
   return (
     <div
       style={{
@@ -79,7 +99,11 @@ export const Default: React.FC = () => {
       }}
     >
       <h1>Pagina de exemplo</h1>
-      <Table
+
+      <Editor defaultValue={value} onChange={v => setValue(v)} />
+
+      {value.replaceAll('\n\n', '\n').split('\n').join('\\n')}
+      {/* <Table
         title="Table Example"
         itemLabel={[
           { name: [{ label: 'Nome', name: ['name'] }] },
@@ -132,7 +156,7 @@ export const Default: React.FC = () => {
         addFunction={() => {
           toast.success(`Adicionado com sucesso!`);
         }}
-      />
+      /> */}
     </div>
   );
 };

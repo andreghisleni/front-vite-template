@@ -1,8 +1,18 @@
-import styled from 'styled-components';
 import { shade } from 'polished';
+import styled, { css } from 'styled-components';
 
 interface ITh {
   width?: number;
+}
+
+interface ITr {
+  haveOtherOpened?: boolean;
+  isHovering?: boolean;
+}
+
+interface ICollapsableContainer {
+  isOpened?: boolean;
+  isHovering: boolean;
 }
 
 export const Container = styled.div`
@@ -75,118 +85,6 @@ export const Container = styled.div`
       }
     }
   }
-
-  table {
-    font-size: 18px;
-    border-collapse: collapse;
-
-    width: 100%;
-    min-width: 900px;
-
-    @media only screen and (max-width: 850px) {
-      min-width: auto;
-
-      thead {
-        display: none;
-      }
-      &,
-      tbody,
-      tr,
-      td {
-        display: block;
-        width: 100%;
-      }
-
-      tr {
-        margin-bottom: 15px;
-        height: auto;
-      }
-      td {
-        > p {
-          text-align: right;
-
-          padding-left: 50%;
-          position: relative;
-          &::before {
-            content: attr(data-label);
-            position: absolute;
-            left: 0;
-          }
-        }
-        div {
-          justify-content: right;
-        }
-      }
-    }
-  }
-  th p {
-    font-size: 14px;
-    line-height: 18px;
-    letter-spacing: 0.2px;
-    font-weight: 700;
-    color: ${props => props.theme.colors.table.subText};
-
-    & + p {
-      font-weight: 400;
-    }
-  }
-  thead tr th {
-    vertical-align: initial;
-    padding-bottom: 12px;
-    border-style: solid;
-    border-bottom-width: 1.5px;
-    border-color: ${props => props.theme.colors.table.border};
-  }
-  td,
-  th {
-    text-align: left;
-    padding: 8px;
-  }
-
-  td {
-    p {
-      color: ${props => props.theme.colors.table.text};
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.2px;
-
-      & + p {
-        font-weight: 400;
-      }
-    }
-    img {
-      width: 300px;
-    }
-  }
-
-  tbody tr:hover {
-    background-color: ${props => props.theme.colors.table.hover};
-  }
-
-  tr {
-    height: 70px;
-  }
-  tr + tr {
-    border-style: solid;
-    border-top-width: 1.5px;
-    border-color: ${props => props.theme.colors.table.border};
-  }
-
-  .nothing {
-    font-size: 24px;
-    text-align: center;
-    margin-top: 40px;
-    width: 100%;
-  }
-`;
-
-export const Th = styled.th<ITh>`
-  width: ${props => (props.width ? `${props.width}px` : 'auto')};
-
-  @media only screen and (max-width: 1400px) {
-    width: auto;
-  }
 `;
 
 export const ButtonContent = styled.div`
@@ -214,9 +112,6 @@ export const ButtonContent = styled.div`
       background: #f12b2c;
     }
 
-    &.other {
-      background: #6c757d;
-    }
     & + button {
       margin-left: 16px;
     }
@@ -239,8 +134,285 @@ export const ButtonContent = styled.div`
     &.delete:hover {
       background: ${shade(0.2, '#f12b2c')};
     }
-    &.other:hover {
-      background: ${shade(0.2, '#6c757d')};
+  }
+`;
+
+export const DefaultButton = styled.button`
+  display: flex;
+
+  align-items: center;
+
+  padding: 8px 11px;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  color: #fff;
+
+  > svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  & + button {
+    margin-left: 16px;
+  }
+  p {
+    margin-left: 6px;
+
+    font-size: 15px;
+    line-height: 16px;
+    letter-spacing: 0.1px;
+
+    color: #ffffff;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const CollapsableContainer = styled.tr<ICollapsableContainer>`
+  width: 100%;
+
+  ${props =>
+    !props.isOpened &&
+    css`
+      display: none;
+    `}
+  &:hover {
+    background-color: ${props => props.theme.colors.table.bg};
+  }
+  ${props =>
+    props.isHovering &&
+    css`
+      background-color: ${props.theme.colors.table.bg};
+    `}
+
+  border-bottom-width: 1.5px;
+  border-style: solid;
+  border-color: ${props => props.theme.colors.table.border};
+
+  /* &:hover {
+    background: red;
+  } */
+
+  td {
+    padding: 40px 16px;
+
+    > div {
+      display: flex;
+      flex-direction: row;
+
+      justify-content: space-between;
+
+      padding-bottom: 10px;
+
+      flex-wrap: wrap;
+
+      > div {
+        display: flex;
+
+        width: max-content;
+
+        flex-direction: column;
+
+        padding: 10px;
+
+        span {
+          font-weight: bold;
+          text-align: left;
+        }
+        p {
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 850px) {
+    ${props =>
+      !props.isOpened
+        ? css`
+            display: none;
+          `
+        : css`
+            display: block;
+          `}
+
+    td {
+      display: block;
+      > div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        > div {
+          display: flex;
+
+          width: 100%;
+
+          flex-direction: row;
+          justify-content: space-between;
+
+          padding: 20px;
+
+          border-bottom-width: 0.2px;
+          border-style: solid;
+          border-color: ${props => props.theme.colors.table.border};
+        }
+      }
+    }
+  }
+`;
+
+export const TableContainer = styled.table`
+  font-size: 18px;
+  border-collapse: collapse;
+
+  width: 100%;
+  min-width: 900px;
+
+  @media only screen and (max-width: 850px) {
+    min-width: auto;
+
+    display: block;
+    width: 100%;
+  }
+`;
+
+export const Thead = styled.thead`
+  vertical-align: initial;
+  padding-bottom: 12px;
+  border-style: solid;
+  border-bottom-width: 1.5px;
+  border-color: ${props => props.theme.colors.table.border};
+
+  @media only screen and (max-width: 850px) {
+    display: none;
+  }
+`;
+
+export const Tbody = styled.tbody`
+  @media only screen and (max-width: 850px) {
+    display: block;
+    width: 100%;
+  }
+`;
+
+export const Tr = styled.tr<ITr>`
+  vertical-align: initial;
+  padding-bottom: 12px;
+
+  ${props =>
+    props.haveOtherOpened
+      ? css`
+          border-bottom-width: 0.5px;
+        `
+      : css`
+          border-bottom-width: 1.5px;
+        `}
+  border-style: solid;
+  border-color: ${props => props.theme.colors.table.border};
+
+  /* & + div {
+    border-style: solid;
+    border-top-width: 1.5px;
+    border-color: ${props => props.theme.colors.table.border};
+  } */
+
+  @media only screen and (max-width: 850px) {
+    display: block;
+    width: 100%;
+
+    margin-bottom: 15px;
+    height: auto;
+
+    ${props =>
+      props.haveOtherOpened &&
+      css`
+        margin-bottom: 0;
+      `}
+  }
+
+  &:hover {
+    background-color: ${props => props.theme.colors.table.bg};
+  }
+  ${props =>
+    props.isHovering &&
+    css`
+      background-color: ${props.theme.colors.table.bg};
+    `}
+`;
+
+export const Th = styled.th<ITh>`
+  width: ${props => (props.width ? `${props.width}px` : 'auto')};
+
+  @media only screen and (max-width: 1400px) {
+    width: auto;
+  }
+
+  vertical-align: initial;
+  padding-bottom: 12px;
+  border-style: solid;
+  border-bottom-width: 1.5px;
+  border-color: ${props => props.theme.colors.table.border};
+
+  text-align: left;
+  padding: 8px;
+
+  p {
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.2px;
+    font-weight: 700;
+    color: ${props => props.theme.colors.table.subText};
+
+    & + p {
+      font-weight: 400;
+    }
+  }
+`;
+
+export const Td = styled.td`
+  text-align: left;
+  padding: 8px;
+
+  height: 70px;
+
+  vertical-align: middle;
+
+  p {
+    color: ${props => props.theme.colors.table.text};
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+
+    & + p {
+      font-weight: 400;
+    }
+  }
+  /* img {
+    width: 300px;
+  } */
+
+  @media only screen and (max-width: 850px) {
+    display: block;
+    width: 100%;
+
+    p {
+      text-align: right;
+
+      padding-left: 50%;
+      position: relative;
+      &::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+      }
+    }
+    div {
+      justify-content: right;
     }
   }
 `;

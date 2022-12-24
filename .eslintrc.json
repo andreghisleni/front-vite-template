@@ -7,8 +7,9 @@
     "plugin:react/recommended",
     "airbnb",
     "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
     "plugin:prettier/recommended",
-    "eslint:recommended"
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -26,6 +27,23 @@
     "unused-imports"
   ],
   "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "tabWidth": 2
+      }
+    ],
+    "no-ternary": "off",
+    "multiline-ternary": "off",
+    "no-unneeded-ternary": "off",
+    // "indent": [
+    //   "error",
+    //   2
+    // ],
+    // "react/jsx-indent": [
+    //   "error",
+    //   2
+    // ],
     "react/jsx-no-constructed-context-values": "off",
     "react/function-component-definition": "off",
     "import/no-extraneous-dependencies": "off",
@@ -51,7 +69,6 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "prettier/prettier": "error",
     "no-nested-ternary": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": "off",
@@ -89,11 +106,7 @@
     ],
     "no-use-before-define": "off",
     "react/prop-types": "off",
-    "react/jsx-props-no-spreading": "off",
-    "react/jsx-indent": [
-      2,
-      2
-    ]
+    "react/jsx-props-no-spreading": "off"
   },
   "settings": {
     "import/resolver": {

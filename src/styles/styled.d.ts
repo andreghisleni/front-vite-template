@@ -1,39 +1,11 @@
+/* eslint @typescript-eslint/no-empty-interface: "off" */
+
 import 'styled-components';
 
+import { defaultTheme } from './theme';
+
+export type Theme = typeof defaultTheme;
+
 declare module 'styled-components' {
-  export interface DefaultTheme {
-    colors: {
-      primary: string;
-      text: string;
-      bg: string;
-
-      table: {
-        bg: string;
-        border: string;
-        text: string;
-        hover: string;
-        subText: string;
-        header: {
-          svg: string;
-        };
-      };
-      scrollbar: {
-        thumb: string;
-        track: string;
-      };
-      input: {
-        placeholder: string;
-        text: string;
-        bg: string;
-        border: string;
-
-        progress: {
-          green: string;
-          yellow: string;
-          red: string;
-          orange: string;
-        };
-      };
-    };
-  }
+  export interface DefaultTheme extends Theme {}
 }
